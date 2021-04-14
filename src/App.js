@@ -14,14 +14,44 @@ function App() {
     let frameId;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0xff00ff });
-    const cube = new THREE.Mesh(geometry, material);
+    renderer.shadowMap.enabled = true;
 
-    camera.position.z = 4;
+    // Gridhelper ------------ TEMPORARY ---------------------
+    const gridHelp = new THREE.GridHelper(100, 10);
+    scene.add(gridHelp);
+
+    // Lights
+    const light = new THREE.AmbientLight(0x404040);
+    scene.add(light);
+    let spot = new THREE.SpotLight(0xffffff);
+    spot.castShadow = true;
+    scene.add(spot);
+
+    // Geometry
+    // Box
+    let geometry = new THREE.BoxGeometry(1, 1, 1);
+    let material = new THREE.MeshPhongMaterial({ color: 0xff00ff });
+    const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
+
+    // Plane
+    geometry = new THREE.PlaneGeometry(5, 5, 10, 10);
+    material = new THREE.MeshPhongMaterial({
+      color: 0xffff00,
+      side: THREE.DoubleSide,
+    });
+    const plane = new THREE.Mesh(geometry, material);
+
+    scene.add(plane);
+
+    // Camera settings
+    camera.position.x = 5;
+    camera.position.y = 4;
+    camera.position.z = 5;
+    camera.lookAt(0, 0, 0);
+
     renderer.setClearColor('#000000');
     renderer.setSize(window.innerWidth, window.innerHeight);
 
