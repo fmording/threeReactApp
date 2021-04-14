@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './App.css';
 import * as THREE from 'three';
 
 function App() {
@@ -33,7 +32,7 @@ function App() {
     const handleResize = () => {
       width = mount.current.clientWidth;
       height = mount.current.clientHeight;
-      renderer.setSize(width, height);
+      renderer.setSize(window.innerWidth, window.innerHeight);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderScene();
