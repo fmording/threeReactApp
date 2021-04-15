@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/GLTFLoader.js'
 
 function App() {
   const { useRef, useEffect, useState } = React;
@@ -30,15 +31,20 @@ function App() {
     scene.add(spot);
 
     // Geometry
-    // Box
-    let geometry = new THREE.BoxGeometry(1, 1, 1);
-    let material = new THREE.MeshPhongMaterial({ color: 0xff00ff });
-    const cube = new THREE.Mesh(geometry, material);
+    // Trying to import top and side panels as GLTF format
+    const loader = new GLTFLoader();
+    const dracoLoader = new DRACOLoader();
+  async function loaderFunc () {
+    
+  }
+    const model = await loader.loadAsync('./model/topAndSidePanels_NoAnim.glb');
+
+ 
     scene.add(cube);
 
     // Plane
-    geometry = new THREE.PlaneGeometry(5, 5, 10, 10);
-    material = new THREE.MeshPhongMaterial({
+    let geometry = new THREE.PlaneGeometry(5, 5, 10, 10);
+    let material = new THREE.MeshPhongMaterial({
       color: 0xffff00,
       side: THREE.DoubleSide,
     });
