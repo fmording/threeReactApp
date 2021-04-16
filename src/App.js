@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/GLTFLoader.js'
+
+import { loadModel } from './components/loadModel';
 
 function App() {
   const { useRef, useEffect, useState } = React;
@@ -32,15 +33,15 @@ function App() {
 
     // Geometry
     // Trying to import top and side panels as GLTF format
-    const loader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader();
-  async function loaderFunc () {
-    
-  }
-    const model = await loader.loadAsync('./model/topAndSidePanels_NoAnim.glb');
+    //const dracoLoader = new DRACOLoader();
+    const init = async () => {
+      const model = await loadModel();
+      scene.add(model);
+    };
 
- 
-    scene.add(cube);
+    init().catch((err) => {
+      console.error(err);
+    });
 
     // Plane
     let geometry = new THREE.PlaneGeometry(5, 5, 10, 10);
@@ -53,9 +54,9 @@ function App() {
     scene.add(plane);
 
     // Camera settings
-    camera.position.x = 5;
+    camera.position.x = 8;
     camera.position.y = 4;
-    camera.position.z = 5;
+    camera.position.z = 8;
     camera.lookAt(0, 0, 0);
 
     renderer.setClearColor('#000000');
@@ -75,8 +76,8 @@ function App() {
     };
 
     const animate = () => {
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
+      //cube.rotation.x += 0.01;
+      //cube.rotation.y += 0.01;
 
       renderScene();
       frameId = window.requestAnimationFrame(animate);
@@ -103,7 +104,7 @@ function App() {
       stop();
       window.removeEventListener('resize', handleResize);
 
-      scene.remove(cube);
+      //scene.remove(cube);
       geometry.dispose();
       material.dispose();
     };
