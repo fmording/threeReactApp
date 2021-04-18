@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import * as THREE from 'three';
+import { useLoader, Canvas } from '@react-three/fiber';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import thing from './model/modelParts_SmartFurniture1.gltf';
 
-import { loadModel } from './components/loadModel';
+function Scene() {
+  const gltf = useLoader(GLTFLoader, thing);
+  return <primitive object={gltf.scene} />;
+}
 
 function App() {
   const { useRef, useEffect, useState } = React;
@@ -33,16 +39,15 @@ function App() {
 
     // Geometry
     // Trying to import top and side panels as GLTF format
-    //const dracoLoader = new DRACOLoader();
-    const init = async () => {
-      const model = await loadModel();
-      scene.add(model);
+    /*const init = async () => {
+    const model = await loadModel();
+    scene.add(model);
     };
 
     init().catch((err) => {
       console.error(err);
     });
-
+*/
     // Plane
     let geometry = new THREE.PlaneGeometry(5, 5, 10, 10);
     let material = new THREE.MeshPhongMaterial({
@@ -119,11 +124,18 @@ function App() {
   }, [isAnimating]);
 
   return (
-    <div
-      ref={mount}
-      onClick={() => setAnimating(!isAnimating)}
-      className="tryDiv"
-    ></div>
+    <>
+      <Canvas camera={{ position: [8, 8, 4], fov: 70 }}>
+        <Suspense fallback={null}>
+          <Scene />
+        </Suspense>
+      </Canvas>
+      <div
+        ref={mount}
+        onClick={() => setAnimating(!isAnimating)}
+        className="tryDiv"
+      ></div>
+    </>
   );
 }
 

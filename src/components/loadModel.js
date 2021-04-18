@@ -5,7 +5,7 @@ const loadModel = async () => {
   const loader = new GLTFLoader();
 
   const modelData = await loader.loadAsync(
-    'srcmodel\topAndSidePanels_NoAnim.glb'
+    './model/topAndSidePanels_NoAnim.glb'
   );
 
   console.log('The model: ', modelData);
