@@ -23,8 +23,6 @@ const Controls = ({ disable, ...props }) => {
       enableDamping
       dampingFactor={0.05}
       rotateSpeed={0.9}
-      minPolarAngle={Math.PI / 1.9}
-      maxPolarAngle={Math.PI / 1.9}
       {...props}
       args={[camera, gl.domElement]}
     />

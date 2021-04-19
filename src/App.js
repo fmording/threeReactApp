@@ -4,6 +4,7 @@ import { useLoader, Canvas } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import thing from './model/firstTryAnimation.glb';
 import Controls from './components/Controls';
+import Lights from './components/Lights';
 
 function Scene() {
   const gltf = useLoader(GLTFLoader, thing);
@@ -23,6 +24,7 @@ function App() {
         camera={{ position: [0, 0, 4], fov: 70 }}
       >
         <Controls disable={set} />
+        <Lights />
         <Suspense fallback={null}>
           <Scene />
         </Suspense>
