@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import * as THREE from 'three';
 import { useLoader, Canvas } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import thing from './model/modelParts_SmartFurniture1.gltf';
+import thing from './model/firstTryAnimation.glb';
 
 function Scene() {
   const gltf = useLoader(GLTFLoader, thing);
@@ -39,15 +39,15 @@ function App() {
 
     // Geometry
     // Trying to import top and side panels as GLTF format
-    /*const init = async () => {
-    const model = await loadModel();
-    scene.add(model);
+    const init = async () => {
+      const model = await loadModel();
+      scene.add(model);
     };
 
     init().catch((err) => {
       console.error(err);
     });
-*/
+
     // Plane
     let geometry = new THREE.PlaneGeometry(5, 5, 10, 10);
     let material = new THREE.MeshPhongMaterial({
@@ -125,7 +125,7 @@ function App() {
 
   return (
     <>
-      <Canvas camera={{ position: [8, 8, 4], fov: 70 }}>
+      <Canvas camera={{ position: [1, 1, 4], fov: 70 }}>
         <Suspense fallback={null}>
           <Scene />
         </Suspense>
