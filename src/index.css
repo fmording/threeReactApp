@@ -12,7 +12,7 @@ code {
     monospace;
 }
 
-tryDiv {
+mainContainer {
   position: fixed;
   top: 0;
   left: 0;
