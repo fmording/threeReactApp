@@ -22,7 +22,6 @@ const Controls = ({ disable, ...props }) => {
       target={[0, 0, 0]}
       enableDamping
       dampingFactor={0.05}
-      rotateSpeed={0.9}
       {...props}
       args={[camera, gl.domElement]}
     />
