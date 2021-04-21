@@ -7,25 +7,11 @@ import Controls from './components/Controls';
 import Lights from './components/Lights';
 import * as THREE from 'three';
 import { Clock } from 'three';
-
-function Scene() {
-  const gltf = useLoader(GLTFLoader, thing);
-  const mixer = new THREE.AnimationMixer(gltf);
-
-  gltf.animations.forEach((clip) => mixer.clipAction(clip).play());
-
-  let clock = new THREE.Clock();
-  if (gltf) {
-    mixer.update(clock.getDelta());
-  }
-
-  return <primitive object={gltf.scene} />;
-}
+import PropTypes from 'prop-types';
+import Model from './components/Model';
 
 function App() {
   const [set] = useState(false);
-
-  //thing.animations.forEach((clip) => mixer.clipAction(clip).play());
 
   return (
     <>
@@ -37,7 +23,7 @@ function App() {
         <Controls disable={set} />
         <Lights />
         <Suspense fallback={null}>
-          <Scene />
+          <Model path={thing} />
         </Suspense>
       </Canvas>
     </>
