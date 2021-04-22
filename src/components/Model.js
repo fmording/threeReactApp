@@ -6,11 +6,13 @@ const Model = (props) => {
   const model = useLoader(GLTFLoader, props.path);
 
   let mixer;
+
   if (model.animations.length) {
     mixer = new THREE.AnimationMixer(model.scene);
     model.animations.forEach((clip) => {
       const action = mixer.clipAction(clip);
-      action.play();
+      props.play ? action.play() : action.stop();
+      console.log(props.play);
     });
   }
 
@@ -26,7 +28,11 @@ const Model = (props) => {
     }
   });
 
-  return <primitive object={model.scene} scale={props.scale} />;
+  return (
+    <>
+      <primitive object={model.scene} scale={props.scale} />
+    </>
+  );
 };
 
 export default Model;
