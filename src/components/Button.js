@@ -8,6 +8,8 @@ const Button = (props) => {
   );
 };
 
-Button.propTypes = {};
+Button.propTypes = {
+  onClick: PropTypes.func,
+};
 
 export default Button;

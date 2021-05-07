@@ -4,15 +4,25 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const Model = (props) => {
   const model = useLoader(GLTFLoader, props.path);
-
   let mixer;
 
   if (model.animations.length) {
     mixer = new THREE.AnimationMixer(model.scene);
-    model.animations.forEach((clip) => {
+    /*model.animations.forEach((clip) => {
       const action = mixer.clipAction(clip);
-      props.play ? action.play() : action.stop();
-      console.log(props.play);
+      //action.setLoop(THREE.LoopPingPong);
+      props.play ? action.stop() : action.play();
+    });*/
+
+    let actualAnimations = model.animations.filter((clip) => {
+      return (
+        clip.name.indexOf('Steg2') !== -1 || clip.name.indexOf('Steg1') !== -1
+      );
+    });
+    console.log(actualAnimations);
+    actualAnimations.forEach((clip) => {
+      const action = mixer.clipAction(clip);
+      props.play ? action.stop() : action.play();
     });
   }
 
