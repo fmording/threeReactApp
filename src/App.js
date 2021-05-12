@@ -2,12 +2,13 @@ import React, { Suspense, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Canvas } from '@react-three/fiber';
 
-import model from './model/steg1til3_AnimasjonTest_5_mNormalsTextures.glb';
+import path1 from './models/Steg1_smartSeng.glb';
+import path2 from './models/Steg2_smartSeng.glb';
+import path3 from './models/Steg3_smartSeng.glb';
 import Controls from './components/Controls';
 import Lights from './components/Lights';
 import Model from './components/Model';
 import Button from './components/Button';
-import ModelJSX from './components/ModelJSX';
 
 function App() {
   // Camera control state
@@ -20,6 +21,11 @@ function App() {
   };
 
   const [step, setStep] = useState('Steg1');
+  const paths = [path1, path2, path3];
+
+  let nr = step.charAt(step.length - 1);
+  const path = paths[nr - 1];
+  console.log(path);
 
   return (
     <>
@@ -31,12 +37,12 @@ function App() {
       <Canvas
         pixelRatio={window.devicePixelRatio}
         gl={{ antialias: true }}
-        camera={{ position: [30, 30, 30], fov: 45 }}
+        camera={{ position: [30, 20, 30], fov: 45 }}
       >
         <Controls disable={set} />
         <Lights />
         <Suspense fallback={null}>
-          <ModelJSX path={model} step={step} play={play} />
+          <Model step={step} path={path} play={play} />
         </Suspense>
       </Canvas>
     </>

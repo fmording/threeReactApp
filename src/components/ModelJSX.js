@@ -4,7 +4,14 @@ import { useGLTF, useAnimations } from '@react-three/drei';
 const ModelJSX = (props) => {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF(props.path);
-  const { actions } = useAnimations(animations, group);
+  const { ref, mixer, names, actions, clips } = useAnimations(
+    animations,
+    group
+  );
+  useEffect(() => {
+    console.log(actions);
+    actions.Steg2_2TopPanel_Action.play();
+  });
   const [step, setStep] = useState('Steg1');
 
   /* useEffect(() => {
@@ -20,6 +27,7 @@ const ModelJSX = (props) => {
 
   return (
     <group ref={group} {...props} dispose={null}>
+      <mesh ref={ref} />
       <group position={[0, 0, 4]} userData={{ name: 'Steg1_EmptyR' }}>
         <mesh
           castShadow

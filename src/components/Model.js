@@ -59,7 +59,6 @@ const Model = (props) => {
     }
   });
 
-  console.log(meshes);
   return (
     <>
       <primitive object={model.scene} scale={props.scale} />
