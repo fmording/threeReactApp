@@ -1,20 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 
 const Button = (props) => {
-  const btnPress = () => {
-    props.setStep(props.step);
-  };
-
-  return (
-    <button className="btn" onClick={btnPress}>
-      {props.step}
-    </button>
-  );
+  return <button className="btn"></button>;
 };
 
 Button.propTypes = {
-  step: PropTypes.string,
+  step: PropTypes.object,
 };
 
 export default Button;

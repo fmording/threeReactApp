@@ -1,13 +1,23 @@
 import { useFrame, useLoader } from '@react-three/fiber';
-import { useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
+import path1 from '../models/Steg1_smartSeng.glb';
+import path2 from '../models/Steg2_smartSeng.glb';
+import path3 from '../models/Steg3_smartSeng.glb';
+
 const Model = (props) => {
-  const model = useLoader(GLTFLoader, props.path);
+  console.log(props);
+
+  const ref = useRef();
+  const gltf = useLoader(GLTFLoader, [path1, path2, path3]);
+
   let mixer;
 
-  let stepIndex = parseFloat(props.step.slice(-1));
+  const i = props.step.slice(-1);
+  let crntModel = gltf[i - 1];
+  console.log(crntModel.animations);
   /*if (stepIndex === 1) {
     const meshes = model.scene.traverse((child) => {
       console.log(child);
@@ -19,11 +29,11 @@ const Model = (props) => {
     console.log(crntMesh);
   }*/
 
-  if (model.animations.length) {
-    mixer = new THREE.AnimationMixer(model.scene);
+  if (crntModel.animations.length) {
+    mixer = new THREE.AnimationMixer(crntModel.scene);
 
     // Choose which animations to play
-    let actualAnimations = model.animations.filter((clip) => {
+    let actualAnimations = crntModel.animations.filter((clip) => {
       return (
         clip.name.indexOf(props.step) !== -1 // || clip.name.indexOf('Steg1') !== -1
       );
@@ -41,29 +51,36 @@ const Model = (props) => {
     mixer?.update(delta);
   });
 
-  model.scene.traverse((child) => {
+  /*model.scene.traverse((child) => {
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
       child.material.side = THREE.FrontSide;
     }
-  });
-  const [crntMesh, setCrntMesh] = useState([]);
+  });*/
 
-  let meshes = [];
+  // Below code is unnecessary, ignore and delete after report
+  /*let meshes = [];
   model.scene.traverse((child) => {
     if (child.isMesh) {
       if (child.name.indexOf('Panel') !== -1) {
         meshes.push(child);
       }
     }
-  });
+  });*/
+  // report material END
 
-  return (
+  return gltf.map(({ scene }, index) => (
     <>
-      <primitive object={model.scene} scale={props.scale} />
+      <primitive
+        key={index}
+        ref={ref}
+        object={scene}
+        // visible={!!visible[index]}
+        scale={props.scale}
+      />
     </>
-  );
+  ));
 };
 
 export default Model;
