@@ -11,6 +11,7 @@ import path1 from './models/Steg1_smartSeng.glb';
 import path2 from './models/Steg2_smartSeng.glb';
 import path3 from './models/Steg3_smartSeng.glb';
 
+import logo from './logo.png';
 function App() {
   // Camera control state
   const [set] = useState(false);
@@ -45,25 +46,34 @@ function App() {
 
   return (
     <>
-      <div className="contentContainer">
+      <div className="contentWrapper">
+        <header>
+          <img src={logo} alt="Smartfurniture hjem" className="logo" />
+        </header>
         <button
           className="btn"
           onClick={() => {
             pathChange('Steg1', path1, [visible[0], true]);
           }}
-        />
+        >
+          1
+        </button>
         <button
           className="btn"
           onClick={() => {
             pathChange('Steg2', path2, [visible[1], true]);
           }}
-        />
+        >
+          2
+        </button>
         <button
           className="btn"
           onClick={() => {
             pathChange('Steg3', path3, [visible[2], true]);
           }}
-        />
+        >
+          3
+        </button>
       </div>
       {path && (
         <Canvas
