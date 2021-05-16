@@ -1,5 +1,5 @@
 import { useFrame, useLoader } from '@react-three/fiber';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -17,26 +17,13 @@ const Model = (props) => {
 
   const i = props.step.slice(-1);
   let crntModel = gltf[i - 1];
-  console.log(crntModel.animations);
-  /*if (stepIndex === 1) {
-    const meshes = model.scene.traverse((child) => {
-      console.log(child);
-    });
-     meshes.filter((child) => {
-      setCrntMesh(child.name.indexOf('Steg1') !== -1 ? child.name : '');
-      return crntMesh;
-    });
-    console.log(crntMesh);
-  }*/
 
   if (crntModel.animations.length) {
     mixer = new THREE.AnimationMixer(crntModel.scene);
 
     // Choose which animations to play
     let actualAnimations = crntModel.animations.filter((clip) => {
-      return (
-        clip.name.indexOf(props.step) !== -1 // || clip.name.indexOf('Steg1') !== -1
-      );
+      return clip.name.indexOf(props.step) !== -1;
     });
 
     // Play the above chosen animations

@@ -7,13 +7,15 @@ const Lights = () => {
 
   return (
     <>
-      <ambientLight color={0xffffff} intensity={0.8} />
-      <hemisphereLight
-        skyColor={0xe7f6ff}
-        groundColor={0x5b5b5b}
-        intensity={1}
-      />
-      <group ref={ref}></group>
+      <group ref={ref}>
+        <ambientLight color={0xffffff} intensity={0.8} />
+        <hemisphereLight
+          skyColor={0xe7f6ff}
+          groundColor={0x5b5b5b}
+          intensity={1}
+        />
+        <directionalLight position={[10, 8, 0]} castShadow />
+      </group>
     </>
   );
 };

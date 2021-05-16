@@ -1,17 +1,24 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 
 import Controls from './components/Controls';
 import Lights from './components/Lights';
 import Model from './components/Model';
 import Button from './components/Button';
+import Environment from './components/Environment';
 
 import path1 from './models/Steg1_smartSeng.glb';
 import path2 from './models/Steg2_smartSeng.glb';
 import path3 from './models/Steg3_smartSeng.glb';
 
 import logo from './logo.png';
+import {
+  FaInfoCircle,
+  FaBars,
+  FaChevronRight,
+  FaChevronLeft,
+} from 'react-icons/fa';
 function App() {
   // Camera control state
   const [set] = useState(false);
@@ -50,39 +57,50 @@ function App() {
         <header>
           <img src={logo} alt="Smartfurniture hjem" className="logo" />
         </header>
-        <button
-          className="btn"
-          onClick={() => {
-            pathChange('Steg1', path1, [visible[0], true]);
-          }}
-        >
-          1
-        </button>
-        <button
-          className="btn"
-          onClick={() => {
-            pathChange('Steg2', path2, [visible[1], true]);
-          }}
-        >
-          2
-        </button>
-        <button
-          className="btn"
-          onClick={() => {
-            pathChange('Steg3', path3, [visible[2], true]);
-          }}
-        >
-          3
-        </button>
+        <div className="icons">
+          <FaInfoCircle className="icon" />
+          <FaBars className="icon" />
+        </div>
+        <div className="stepSection">
+          <h2 id="steg">Steg</h2>
+          <FaChevronLeft className="icon" />
+          <button
+            className="btn"
+            onClick={() => {
+              pathChange('Steg1', path1, [visible[0], true]);
+            }}
+          >
+            1
+          </button>
+          <button
+            className="btn"
+            onClick={() => {
+              pathChange('Steg2', path2, [visible[1], true]);
+            }}
+          >
+            2
+          </button>
+          <button
+            className="btn"
+            onClick={() => {
+              pathChange('Steg3', path3, [visible[2], true]);
+            }}
+          >
+            3
+          </button>
+          <FaChevronRight className="icon" />
+        </div>
       </div>
       {path && (
         <Canvas
+          shadows
           pixelRatio={window.devicePixelRatio}
           gl={{ antialias: true }}
-          camera={{ position: [30, 20, 30], fov: 45 }}
+          camera={{ position: [30, 20, 30], fov: 65 }}
         >
           <Controls disable={set} />
           <Lights />
+          <gridHelper args={[1000, 100, `#cfcfcf80`, `#8b8b8b80`]} />
           <Suspense fallback={null}>
             <Model step={step} path={path} play={play} visible={visible} />
           </Suspense>
