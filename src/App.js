@@ -19,32 +19,33 @@ import {
   FaChevronRight,
   FaChevronLeft,
 } from 'react-icons/fa';
+
 function App() {
   // Camera control state
   const [set] = useState(false);
 
-  // Button play/pause
-  const [play, setPlay] = useState(false);
-  const click = () => {
-    setPlay(!play);
-  };
+  // Button play/pause --------------------------
+  // const [play, setPlay] = useState(false);
+  // const click = () => {
+  //   setPlay(!play);
+  // }; -----------------------------------------
 
   //const [step, setStep] = useState('Steg1');
   const [step, setStep] = useState('Steg1');
-  const [path, setPath] = useState(path1);
-  const [visible, setVisible] = useState([true]);
+  const [path, setPath] = useState([path1, path2, path3]);
+  const [visible, setVisible] = useState([true, false, false]);
   const pathChange = (steg, fil, vis) => {
     setStep(steg);
     setPath(fil);
     setVisible(vis);
   };
 
-  /* useEffect(() => {
+  /* useEffect(() => { --------------------------
     const paths = [path1, path2, path3];
     let nr = step.charAt(step.length - 1);
     path.current = paths[nr - 1];
     console.log(path);
-  });
+  }); -------------------------------------------
 */
 
   const Button = (props) => {
@@ -56,6 +57,16 @@ function App() {
       <div className="contentWrapper">
         <header>
           <img src={logo} alt="Smartfurniture hjem" className="logo" />
+          <button
+            className="btn"
+            style={{
+              width: '120px',
+              height: '80%',
+              fontSize: '1em',
+            }}
+          >
+            Kontakt Oss
+          </button>
         </header>
         <div className="icons">
           <FaInfoCircle className="icon" />
@@ -64,18 +75,22 @@ function App() {
         <div className="stepSection">
           <h2 id="steg">Steg</h2>
           <FaChevronLeft className="icon" />
+          <Button
+            className="btn"
+            setVisible={setVisible}
+            path={path1}
+            visible={visible}
+          />
+          <Button
+            className="btn"
+            setVisible={setVisible}
+            path={path3}
+            visible={visible}
+          />
           <button
             className="btn"
             onClick={() => {
-              pathChange('Steg1', path1, [visible[0], true]);
-            }}
-          >
-            1
-          </button>
-          <button
-            className="btn"
-            onClick={() => {
-              pathChange('Steg2', path2, [visible[1], true]);
+              pathChange('Steg2', path2, 1);
             }}
           >
             2
@@ -83,7 +98,7 @@ function App() {
           <button
             className="btn"
             onClick={() => {
-              pathChange('Steg3', path3, [visible[2], true]);
+              pathChange('Steg3', path3, 2);
             }}
           >
             3
@@ -102,7 +117,8 @@ function App() {
           <Lights />
           <gridHelper args={[1000, 100, `#cfcfcf80`, `#8b8b8b80`]} />
           <Suspense fallback={null}>
-            <Model step={step} path={path} play={play} visible={visible} />
+            <Model step={step} path={path[0]} visible={visible} />
+            <Model step="Steg3" path={path[2]} visible={visible} />
           </Suspense>
         </Canvas>
       )}

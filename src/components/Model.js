@@ -8,21 +8,45 @@ import path2 from '../models/Steg2_smartSeng.glb';
 import path3 from '../models/Steg3_smartSeng.glb';
 
 const Model = (props) => {
-  console.log(props);
-
   const ref = useRef();
-  const gltf = useLoader(GLTFLoader, [path1, path2, path3]);
+  const gltf = useLoader(GLTFLoader, props.path);
+
+  // useEffect(
+  //   () =>
+  //     gltf.forEach((model) =>
+  //       model.scene.traverse(
+  //         (obj) => obj.isMesh && (obj.castShadow = obj.receiveShadow = true)
+  //       )
+  //     )[gltf]
+  // );
+
+  // let i = 0;
+  // useEffect(() => {
+  //   gltf.forEach((scene) => {
+  //     let model = scene.scene;
+  //     model.name = props.step; // aka. 'Steg{X}'
+  //     model.visible = props.visible[i];
+  //     i++;
+  //   });
+  // });
+
+  console.log(gltf);
 
   let mixer;
 
-  const i = props.step.slice(-1);
-  let crntModel = gltf[i - 1];
+  const i = props.step.slice(-1) - 1;
+  const visibility = props.visible[i];
+  console.log(visibility);
 
-  if (crntModel.animations.length) {
-    mixer = new THREE.AnimationMixer(crntModel.scene);
+  const name = visibility ? 'vis' : 'invis';
+
+  console.log(name);
+
+  if (gltf.animations.length) {
+    mixer = new THREE.AnimationMixer(gltf.scene);
 
     // Choose which animations to play
-    let actualAnimations = crntModel.animations.filter((clip) => {
+    let actualAnimations = gltf.animations.filter((clip) => {
       return clip.name.indexOf(props.step) !== -1;
     });
 
@@ -30,7 +54,8 @@ const Model = (props) => {
     actualAnimations.forEach((clip) => {
       const action = mixer.clipAction(clip);
       action.setLoop(THREE.LoopPingPong);
-      props.play ? action.stop() : action.play();
+      action.play();
+      // props.play ? action.stop() : action.play();
     });
   }
 
@@ -38,7 +63,34 @@ const Model = (props) => {
     mixer?.update(delta);
   });
 
-  /*model.scene.traverse((child) => {
+  return (
+    <>
+      <primitive
+        object={gltf.scene}
+        ref={ref}
+        key={props.step}
+        scale={props.scale}
+        visible={visibility}
+      />
+    </>
+  );
+};
+
+//   return gltf.map(({ scene }, index) => (
+//     <>
+//       <primitive
+//         key={index}
+//         ref={ref}
+//         object={scene}
+//         visible={!props.visible[index]}
+//         scale={props.scale}
+//       />
+//     </>
+//   ));
+// };
+
+export default Model;
+/*model.scene.traverse((child) => {
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
@@ -46,8 +98,8 @@ const Model = (props) => {
     }
   });*/
 
-  // Below code is unnecessary, ignore and delete after report
-  /*let meshes = [];
+// Below code is unnecessary, ignore and delete after report
+/*let meshes = [];
   model.scene.traverse((child) => {
     if (child.isMesh) {
       if (child.name.indexOf('Panel') !== -1) {
@@ -55,19 +107,4 @@ const Model = (props) => {
       }
     }
   });*/
-  // report material END
-
-  return gltf.map(({ scene }, index) => (
-    <>
-      <primitive
-        key={index}
-        ref={ref}
-        object={scene}
-        // visible={!!visible[index]}
-        scale={props.scale}
-      />
-    </>
-  ));
-};
-
-export default Model;
+// report material END
