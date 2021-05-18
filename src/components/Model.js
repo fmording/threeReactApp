@@ -1,11 +1,7 @@
 import { useFrame, useLoader } from '@react-three/fiber';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-
-import path1 from '../models/Steg1_smartSeng.glb';
-import path2 from '../models/Steg2_smartSeng.glb';
-import path3 from '../models/Steg3_smartSeng.glb';
 
 const Model = (props) => {
   const ref = useRef();
@@ -30,17 +26,10 @@ const Model = (props) => {
   //   });
   // });
 
-  console.log(gltf);
-
   let mixer;
 
   const i = props.step.slice(-1) - 1;
   const visibility = props.visible[i];
-  console.log(visibility);
-
-  const name = visibility ? 'vis' : 'invis';
-
-  console.log(name);
 
   if (gltf.animations.length) {
     mixer = new THREE.AnimationMixer(gltf.scene);
@@ -54,6 +43,7 @@ const Model = (props) => {
     actualAnimations.forEach((clip) => {
       const action = mixer.clipAction(clip);
       action.setLoop(THREE.LoopPingPong);
+
       action.play();
       // props.play ? action.stop() : action.play();
     });

@@ -1,25 +1,23 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-
 const Button = (props) => {
-  const i = props.path.toString().slice(-1) - 1;
-  const Click = () => {
-    // props.visible.forEach((value, index) => {
-    //   index = i ? (value = true) : (value = false);
-    // });
-    // console.log(props.visible);
+  const i = parseInt(props.step) - 1;
 
-    props.visible.map((element, index) => {
-      element = false;
+  const click = () => {
+    const newArr = props.visible.map((value, index) => {
       if (index === i) {
-        element = true;
+        return true;
+      } else {
+        return false;
       }
-      return element;
     });
-    console.log(props.visible);
+    props.setVisible(newArr);
+    props.setStep('Steg' + props.step);
   };
 
-  return <button className="btn" onClick={Click}></button>;
+  return (
+    <button className="btn" onClick={click}>
+      {props.step}
+    </button>
+  );
 };
 
 export default Button;

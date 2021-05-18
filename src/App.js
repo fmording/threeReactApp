@@ -1,12 +1,11 @@
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 
 import Controls from './components/Controls';
 import Lights from './components/Lights';
 import Model from './components/Model';
 import Button from './components/Button';
-import Environment from './components/Environment';
 
 import path1 from './models/Steg1_smartSeng.glb';
 import path2 from './models/Steg2_smartSeng.glb';
@@ -32,13 +31,8 @@ function App() {
 
   //const [step, setStep] = useState('Steg1');
   const [step, setStep] = useState('Steg1');
-  const [path, setPath] = useState([path1, path2, path3]);
+  const [path] = useState([path1, path2, path3]);
   const [visible, setVisible] = useState([true, false, false]);
-  const pathChange = (steg, fil, vis) => {
-    setStep(steg);
-    setPath(fil);
-    setVisible(vis);
-  };
 
   /* useEffect(() => { --------------------------
     const paths = [path1, path2, path3];
@@ -47,10 +41,6 @@ function App() {
     console.log(path);
   }); -------------------------------------------
 */
-
-  const Button = (props) => {
-    return <button className="btn"></button>;
-  };
 
   return (
     <>
@@ -78,31 +68,27 @@ function App() {
           <Button
             className="btn"
             setVisible={setVisible}
+            setStep={setStep}
             path={path1}
+            step="1"
             visible={visible}
           />
           <Button
             className="btn"
             setVisible={setVisible}
-            path={path3}
+            setStep={setStep}
+            path={path2}
+            step="2"
             visible={visible}
           />
-          <button
+          <Button
             className="btn"
-            onClick={() => {
-              pathChange('Steg2', path2, 1);
-            }}
-          >
-            2
-          </button>
-          <button
-            className="btn"
-            onClick={() => {
-              pathChange('Steg3', path3, 2);
-            }}
-          >
-            3
-          </button>
+            setVisible={setVisible}
+            setStep={setStep}
+            path={path3}
+            step="3"
+            visible={visible}
+          />
           <FaChevronRight className="icon" />
         </div>
       </div>
@@ -117,7 +103,8 @@ function App() {
           <Lights />
           <gridHelper args={[1000, 100, `#cfcfcf80`, `#8b8b8b80`]} />
           <Suspense fallback={null}>
-            <Model step={step} path={path[0]} visible={visible} />
+            <Model step="Steg1" path={path[0]} visible={visible} />
+            <Model step="Steg2" path={path[1]} visible={visible} />
             <Model step="Steg3" path={path[2]} visible={visible} />
           </Suspense>
         </Canvas>
