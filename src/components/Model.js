@@ -43,7 +43,6 @@ const Model = (props) => {
     actualAnimations.forEach((clip) => {
       const action = mixer.clipAction(clip);
       action.setLoop(THREE.LoopPingPong);
-
       action.play();
       // props.play ? action.stop() : action.play();
     });

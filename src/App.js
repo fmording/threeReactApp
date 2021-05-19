@@ -23,24 +23,10 @@ function App() {
   // Camera control state
   const [set] = useState(false);
 
-  // Button play/pause --------------------------
-  // const [play, setPlay] = useState(false);
-  // const click = () => {
-  //   setPlay(!play);
-  // }; -----------------------------------------
-
-  //const [step, setStep] = useState('Steg1');
+  // States showing what step user is on, the paths for all models, and which model should be visible
   const [step, setStep] = useState('Steg1');
   const [path] = useState([path1, path2, path3]);
   const [visible, setVisible] = useState([true, false, false]);
-
-  /* useEffect(() => { --------------------------
-    const paths = [path1, path2, path3];
-    let nr = step.charAt(step.length - 1);
-    path.current = paths[nr - 1];
-    console.log(path);
-  }); -------------------------------------------
-*/
 
   return (
     <>
@@ -92,23 +78,23 @@ function App() {
           <FaChevronRight className="icon" />
         </div>
       </div>
-      {path && (
-        <Canvas
-          shadows
-          pixelRatio={window.devicePixelRatio}
-          gl={{ antialias: true }}
-          camera={{ position: [30, 20, 30], fov: 65 }}
-        >
-          <Controls disable={set} />
-          <Lights />
-          <gridHelper args={[1000, 100, `#cfcfcf80`, `#8b8b8b80`]} />
-          <Suspense fallback={null}>
-            <Model step="Steg1" path={path[0]} visible={visible} />
-            <Model step="Steg2" path={path[1]} visible={visible} />
-            <Model step="Steg3" path={path[2]} visible={visible} />
-          </Suspense>
-        </Canvas>
-      )}
+
+      <Canvas
+        shadows
+        pixelRatio={window.devicePixelRatio}
+        gl={{ antialias: true, transparency: true }}
+        camera={{ position: [30, 20, 30], fov: 65 }}
+      >
+        <Controls disable={set} />
+        <Lights />
+        <gridHelper args={[800, 100, `#fafafa`, `#f7f7f7`]} />
+        <fog attach="fog" args={['#cfcece', 40, 500]} />
+        <Suspense fallback={null}>
+          <Model step="Steg1" path={path[0]} visible={visible} />
+          <Model step="Steg2" path={path[1]} visible={visible} />
+          <Model step="Steg3" path={path[2]} visible={visible} />
+        </Suspense>
+      </Canvas>
     </>
   );
 }
