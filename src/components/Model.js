@@ -6,28 +6,9 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 const Model = (props) => {
   const ref = useRef();
   const gltf = useLoader(GLTFLoader, props.path);
-
-  // useEffect(
-  //   () =>
-  //     gltf.forEach((model) =>
-  //       model.scene.traverse(
-  //         (obj) => obj.isMesh && (obj.castShadow = obj.receiveShadow = true)
-  //       )
-  //     )[gltf]
-  // );
-
-  // let i = 0;
-  // useEffect(() => {
-  //   gltf.forEach((scene) => {
-  //     let model = scene.scene;
-  //     model.name = props.step; // aka. 'Steg{X}'
-  //     model.visible = props.visible[i];
-  //     i++;
-  //   });
-  // });
-
   let mixer;
 
+  // Get correct index and set visibility
   const i = props.step.slice(-1) - 1;
   const visibility = props.visible[i];
 
@@ -44,7 +25,7 @@ const Model = (props) => {
       const action = mixer.clipAction(clip);
       action.setLoop(THREE.LoopPingPong);
       action.play();
-      // props.play ? action.stop() : action.play();
+      props.play ? action.stop() : action.play();
     });
   }
 
@@ -65,35 +46,4 @@ const Model = (props) => {
   );
 };
 
-//   return gltf.map(({ scene }, index) => (
-//     <>
-//       <primitive
-//         key={index}
-//         ref={ref}
-//         object={scene}
-//         visible={!props.visible[index]}
-//         scale={props.scale}
-//       />
-//     </>
-//   ));
-// };
-
 export default Model;
-/*model.scene.traverse((child) => {
-    if (child.isMesh) {
-      child.castShadow = true;
-      child.receiveShadow = true;
-      child.material.side = THREE.FrontSide;
-    }
-  });*/
-
-// Below code is unnecessary, ignore and delete after report
-/*let meshes = [];
-  model.scene.traverse((child) => {
-    if (child.isMesh) {
-      if (child.name.indexOf('Panel') !== -1) {
-        meshes.push(child);
-      }
-    }
-  });*/
-// report material END
